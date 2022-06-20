@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import {HttpClient} from '@angular/common/http'
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-inventory',
@@ -9,15 +10,13 @@ import {HttpClient} from '@angular/common/http'
 })
 export class InventoryComponent implements OnInit {
 
-  public productsObtained: Product[] | undefined
-  public data: Product[] | undefined
+  productsObtained: Product[] | undefined;
 
-  constructor(private http: HttpClient) {
-    this.http.get('http://localhost:8080/product/getProducts').subscribe(data => this.productsObtained)
+
+  constructor(private productService: ProductService) {
    }
 
   ngOnInit(): void {
-     this.data = this.productsObtained
+     this.productService.getAllProducts().subscribe(e =>this.productsObtained=e);
   }
-
 }

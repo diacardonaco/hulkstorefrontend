@@ -9,13 +9,34 @@ import { Observable } from "rxjs";
 })
 export class ProductService {
   private product: Product | undefined;
-  private allProductsUrl = "localhost:8080/product/getProducts"; 
+ 
+ 
+  private getAllProductsUrl = "http://localhost:8080/product/getProducts"; 
+  private getOneProductsUrl = "http://localhost:8080/product/get/"; 
+  private createOneProductUrl = "http://localhost:8080/product/createProduct"; 
+  private updateProductUrl = "http://localhost:8080/product/updateProduct"; 
 
 
   constructor(private http: HttpClient) { }
 
-  public getAllProducts(): Observable<Product> {
-    return this.http.get<Product>(this.allProductsUrl);
+  public getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.getAllProductsUrl);
+  }
+
+  public createProduct(product:Product): Observable<Product> {
+    return this.http.post<Product>(this.createOneProductUrl, product)
+  }
+
+  public getProduct(id:number): Observable<Product> {
+    return this.http.get<Product>(this.getOneProductsUrl + id);
+  }
+
+  public updateProduct(product:Product): Observable<Product> {
+    return this.http.put<Product>(this.updateProductUrl, product)
+  }
+
+  public deleteProduct(id:number): Observable<Product> {
+    return this.http.delete<Product>(this.getOneProductsUrl + id);
   }
 
 }
